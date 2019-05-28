@@ -1,0 +1,105 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=13pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Ruprecht-Karls-Universität Heidelberg, Institut für Informatik} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Exercise 6: Project Proposal \\ DeepVision\\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Team: Max Schumacher, Oliver Schmitt} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle
+
+\begin{description}
+\item{Contribution of the team members:} \\
+\begin{itemize}
+\item Oliver:
+\begin{itemize}
+\item Data preprocessing and implementation of a Data-Loader
+\item Hyper-parameter tuning and training of the model
+\item Evaluation of the results
+\end{itemize}
+\item Max:
+\begin{itemize}
+\item Reimplementing the YOLO network in python (model)
+\item Tuning of a data sampler
+\item Evaluation of the results
+\end{itemize}
+\end{itemize}
+\item{Problem Definition:} \\
+For our project, we want to deal with object detection in videos in real-time. This topic is interesting, since it is applicable to numerous real life scenarios e.g. autonomous driving cars and camera surveillance.
+Since we want to apply object detection to videos our goal is to find a solution that is both, reasonably fast and accurate. For our approach we want to confidently predict 50 classes in real time (5 fps or more).
+\item{Dataset:} \\
+For the data, we want to use weights from a pretrained model that relies on ImageNet \cite{ImageNet} and afterwards train our model on the CitySpaces-dataset \cite{CitySpaces}, which contains semantic segmentation for 25.000 images. However, this dataset could be easily substituted for any other dataset containing labelled semantic segmentation for images.
+\item{Approach:} \\
+For our approach we want to use the YOLOv3 Model \cite{YOLO}. Therefore, we want to reimplement the model in python with a deep learning library like: PyTorch or TensorFlow. Since the model is currently implemented via DarkNet \cite{DarkNet} in C we want to transport the model to python while keeping acceptable performance; in terms of frame-rate. The result could either be a native implementation in python, or a python-wrapped version of the original implementation. Afterwards we want to load the weights of a pre-trained YOLO-model and use these to further train on the City-Spaces dataset, to see how the performance of the network improves when trained on unseen data. 
+\item{Evaluation and expected Results:} \\
+Firstly, we want to compare computation-time of our implementation to the original implementation(DarkNet). Although we expect a lower frame-rate, our implementation should keep performance that is suitable for real-time video processing. (5 fps or more) \\
+Additionally, we want to compare accuracies, on the test set from the CitySpaces-dataset; before and after training the pre-trained model. Simultaneously, we analyze how the accuracy behaves on the ImageNet dataset. We expect a gain in accuracy concerning the CitySpaces-dataset and a loss of accuracy with the ImageNet-dataset. Therefore, we will also explore techniques of data-sampling that take training samples from both datasets to mitigate this problem.
+\newpage
+\item{Hardware:}
+\begin{itemize}
+\item For training we want to take advantage of the CUDA-Framework. Therefore, we plan on using a Nvidia gtx 1060 with 6GB of VRAM as compute unit
+\item The rest of the system, we plan on using, consists of an i7 8600k and 16GB of RAM
+\end{itemize}
+\end{description} 
+
+\begin{thebibliography}{9}
+
+\bibitem{ImageNet}
+  Stanford vision, Stanford University: ImageNet - \textit{http://www.image-net.org/}
+
+\bibitem{CitySpaces}
+https://www.cityscapes-dataset.com/
+
+\bibitem{YOLO}
+https://pjreddie.com/darknet/yolo/
+
+
+\bibitem{DarkNet}
+https://pjreddie.com/darknet/
+\end{thebibliography}
+\end{document}
