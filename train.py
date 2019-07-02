@@ -11,7 +11,6 @@ from models import *
 from utils.datasets import *
 from utils.utils import *
 
-#      0.149      0.241      0.126      0.156       6.85      1.008      1.421    0.07989      16.94      6.215      10.61      4.272      0.251      0.001         -4        0.9     0.0005   320 64-1 giou
 hyp = {'giou': 1.008,  # giou loss gain
        'xy': 1.421,  # xy loss gain
        'wh': 0.07989,  # wh loss gain
@@ -26,27 +25,11 @@ hyp = {'giou': 1.008,  # giou loss gain
        'weight_decay': 0.0005}  # optimizer weight decay
 
 
-#     0.0945      0.279      0.114      0.131         25      0.035        0.2        0.1      0.035         79       1.61       3.53       0.29      0.001         -4        0.9     0.0005   320 64-1
-#     0.112       0.265      0.111      0.144       12.6      0.035        0.2        0.1      0.035         79       1.61       3.53       0.29      0.001         -4        0.9     0.0005   320 32-2
-# hyp = {'giou': .035,  # giou loss gain
-#        'xy': 0.20,  # xy loss gain
-#        'wh': 0.10,  # wh loss gain
-#        'cls': 0.035,  # cls loss gain
-#        'cls_pw': 79.0,  # cls BCELoss positive_weight
-#        'conf': 1.61,  # conf loss gain
-#        'conf_pw': 3.53,  # conf BCELoss positive_weight
-#        'iou_t': 0.29,  # iou target-anchor training threshold
-#        'lr0': 0.001,  # initial learning rate
-#        'lrf': -4.,  # final learning rate = lr0 * (10 ** lrf)
-#        'momentum': 0.90,  # SGD momentum
-#        'weight_decay': 0.0005}  # optimizer weight decay
-
-
 def train(
         cfg,
         data_cfg,
         img_size=416,
-        epochs=100,  # 500200 batches at bs 16, 117263 images = 273 epochs
+        epochs=100,
         batch_size=8,
         accumulate=8,  # effective bs = batch_size * accumulate = 8 * 8 = 64
         freeze_backbone=False,
@@ -107,24 +90,9 @@ def train(
         for f in glob.glob('*_batch*.jpg') + glob.glob('results.txt'):
             os.remove(f)
 
-    # Scheduler https://github.com/ultralytics/yolov3/issues/238
-    # lf = lambda x: 1 - x / epochs  # linear ramp to zero
-    # lf = lambda x: 10 ** (hyp['lrf'] * x / epochs)  # exp ramp
-    # lf = lambda x: 1 - 10 ** (hyp['lrf'] * (1 - x / epochs))  # inverse exp ramp
     # scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
     scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=[round(opt.epochs * x) for x in (0.8, 0.9)], gamma=0.1)
     scheduler.last_epoch = start_epoch - 1
-
-    # # Plot lr schedule
-    # y = []
-    # for _ in range(epochs):
-    #     scheduler.step()
-    #     y.append(optimizer.param_groups[0]['lr'])
-    # plt.plot(y, label='LambdaLR')
-    # plt.xlabel('epoch')
-    # plt.ylabel('LR')
-    # plt.tight_layout()
-    # plt.savefig('LR.png', dpi=300)
 
     # Dataset
     rectangular_training = False
@@ -184,11 +152,6 @@ def train(
                 if int(name.split('.')[1]) < cutoff:  # if layer < 75
                     p.requires_grad = False if epoch == 0 else True
 
-        # # Update image weights (optional)
-        # w = model.class_weights.cpu().numpy() * (1 - maps)  # class weights
-        # image_weights = labels_to_image_weights(dataset.labels, nc=nc, class_weights=w)
-        # dataset.indices = random.choices(range(dataset.n), weights=image_weights, k=dataset.n)  # random weighted index
-
         mloss = torch.zeros(5).to(device)  # mean losses
         pbar = tqdm(enumerate(dataloader), total=nb)  # progress bar
         for i, (imgs, targets, _, _) in pbar:
@@ -236,7 +199,6 @@ def train(
 
             # Print batch results
             mloss = (mloss * i + loss_items) / (i + 1)  # update mean losses
-            # s = ('%8s%12s' + '%10.3g' * 7) % ('%g/%g' % (epoch, epochs - 1), '%g/%g' % (i, nb - 1), *mloss, len(targets), time.time() - t)
             s = ('%8s%12s' + '%10.3g' * 7) % (
                 '%g/%g' % (epoch, epochs - 1), '%g/%g' % (i, nb - 1), *mloss, len(targets), img_size)
             t = time.time()
