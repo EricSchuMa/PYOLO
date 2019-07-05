@@ -3,12 +3,12 @@ import json
 
 PATH_MINI = "first_two.json"
 
-PATH_TRAIN = "bdd100k_labels_images_train.json"
-PATH_VAL = "bdd100k_labels_images_val.json"
+PATH_TRAIN = "json/bdd100k_labels_images_train.json"
+PATH_VAL = "json/bdd100k_labels_images_val.json"
 
-PATH_OUTPUT = "parsed/"
+PATH_OUTPUT = "./"
 
-PATH_CATEGORY_DICT = "category_dict.json"
+PATH_CATEGORY_DICT = "json/category_dict.json"
 
 IMAGE_WIDTH = 1280
 IMAGE_HEIGHT = 720
@@ -44,7 +44,14 @@ def parse_label_file(path: str) -> None:
 
     category_dict = load_json_file(PATH_CATEGORY_DICT)
 
-    path_stripped = path[:path.rfind(".json")] if ".json" in path else path
+    # path_stripped = path[:path.rfind(".json")] if ".json" in path else path
+    if "train" in path:
+        path_stripped = "train"
+    elif "val" in path:
+        path_stripped = "val"
+    else:
+        print("Cannot determine if a train or val file is passed.")
+        exit(1)
     path_output = PATH_OUTPUT + path_stripped
     for image in loaded:
         name = image["name"]
