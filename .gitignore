@@ -7,4 +7,4 @@
 **/__pycache__
 data/bdd100k/images
 data/bdd100k/labels/parsed
-data/bdd100k/labels/labels/*.json
+data/bdd100k/labels/*.json
