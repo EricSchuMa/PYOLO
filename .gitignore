@@ -4,3 +4,4 @@
 *.gz
 *.bak
 .idea
+data/
