@@ -4,4 +4,6 @@
 *.gz
 *.bak
 .idea
-data/
+data/bdd100k/images
+data/bdd100k/parsed
+data/bdd100k/*.json
