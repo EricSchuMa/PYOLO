@@ -24,6 +24,40 @@ hyp = {'giou': 1.008,  # giou loss gain
        'momentum': 0.90,  # SGD momentum
        'weight_decay': 0.0005}  # optimizer weight decay
 
+def print_(cfg,
+        data_cfg,
+        img_size=416,
+        epochs=100,
+        batch_size=8,
+        accumulate=8,  # effective bs = batch_size * accumulate = 8 * 8 = 64
+        freeze_backbone=False,
+):
+    # Configure run
+    data_dict = parse_data_cfg(data_cfg)
+    train_path = data_dict['train']
+
+    # Dataset
+    rectangular_training = False
+    dataset = LoadImagesAndLabels(train_path,
+                                  img_size,
+                                  batch_size,
+                                  augment=True,
+                                  rect=rectangular_training)
+
+    # Dataloader
+    dataloader = DataLoader(dataset,
+                            batch_size=batch_size,
+                            num_workers=opt.num_workers,
+                            shuffle=not rectangular_training,  # Shuffle=True unless rectangular training is used
+                            pin_memory=True,
+                            collate_fn=dataset.collate_fn)
+    nb = len(dataloader)
+    pbar = tqdm(enumerate(dataloader), total=nb)  # progress bar
+    for i, (imgs, targets, _, _) in pbar:
+        if i < 100:
+            plot_images(imgs=imgs, targets=targets, fname='./examples/train_batch%g.jpg' % i)
+        else:
+            break
 
 def train(
         cfg,
@@ -77,10 +111,11 @@ def train(
         start_epoch = chkpt['epoch'] + 1
         if chkpt['optimizer'] is not None:
             optimizer.load_state_dict(chkpt['optimizer'])
-            best_loss = chkpt['best_loss']
+            best_map = chkpt['best_map']
+
         del chkpt
 
-    else:  # Initialize model with backbone (optional)
+    elif opt.pretrained:  # Initialize model with backbone (optional)
         if '-tiny.cfg' in cfg:
             cutoff = load_darknet_weights(model, weights + 'yolov3-tiny.conv.15')
         else:
@@ -89,7 +124,7 @@ def train(
         # Remove old results
         for f in glob.glob('*_batch*.jpg') + glob.glob('results.txt'):
             os.remove(f)
-
+      
     # scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
     scheduler = lr_scheduler.MultiStepLR(optimizer, milestones=[round(opt.epochs * x) for x in (0.8, 0.9)], gamma=0.1)
     scheduler.last_epoch = start_epoch - 1
@@ -237,7 +272,7 @@ def train(
             torch.save(chkpt, latest)
 
             # Save best checkpoint
-            if best_loss == test_loss:
+            if best_map == results[2]:
                 torch.save(chkpt, best)
 
             # Save backup every 10 epochs (optional)
@@ -272,12 +307,13 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=100, help='number of epochs')
     parser.add_argument('--batch-size', type=int, default=8, help='batch size')
     parser.add_argument('--accumulate', type=int, default=8, help='number of batches to accumulate before optimizing')
-    parser.add_argument('--cfg', type=str, default='cfg/yolov3-spp.cfg', help='cfg file path')
-    parser.add_argument('--data-cfg', type=str, default='data/coco_64img.data', help='coco.data file path')
+    parser.add_argument('--cfg', type=str, default='cfg/yolov3-custom.cfg', help='cfg file path')
+    parser.add_argument('--data-cfg', type=str, default='data/lunar.data', help='lunar.data file path')
     parser.add_argument('--single-scale', action='store_true', help='train at fixed size (no multi-scale)')
     parser.add_argument('--img-size', type=int, default=416, help='inference size (pixels)')
     parser.add_argument('--resume', action='store_true', help='resume training flag')
     parser.add_argument('--transfer', action='store_true', help='transfer learning flag')
+    parser.add_argument('--pretrained', action='store_true', help='pretrained training flag')
     parser.add_argument('--num-workers', type=int, default=4, help='number of Pytorch DataLoader workers')
     parser.add_argument('--nosave', action='store_true', help='only save final checkpoint')
     parser.add_argument('--notest', action='store_true', help='only test final epoch')
@@ -294,7 +330,7 @@ if __name__ == '__main__':
         opt.nosave = True  # only save final checkpoint
 
     # Train
-    results = train(opt.cfg,
+    print_(opt.cfg,
                     opt.data_cfg,
                     img_size=opt.img_size,
                     epochs=opt.epochs,

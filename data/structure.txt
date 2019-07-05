@@ -1,0 +1,17 @@
+data
+├── berkeley.data
+├── classes.names
+├── create_class_name_file.py
+├── images
+│   ├── test
+│   ├── train
+│   └── val
+├── labels
+│   ├── create_category_dict.py
+│   ├── json
+│   ├── parse_labels.py
+│   ├── train
+│   └── val
+├── structure.txt
+├── train.txt
+└── val.txt
