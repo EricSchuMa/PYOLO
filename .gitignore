@@ -5,5 +5,5 @@
 *.bak
 .idea
 data/bdd100k/images
-data/bdd100k/parsed
-data/bdd100k/*.json
+data/bdd100k/labels/parsed
+data/bdd100k/labels/labels/*.json
