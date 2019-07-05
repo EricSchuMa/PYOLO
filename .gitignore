@@ -5,6 +5,6 @@
 *.bak
 .idea
 **/__pycache__
-data/bdd100k/images
-data/bdd100k/labels/parsed
-data/bdd100k/labels/*.json
+data/images
+data//labels/parsed
+data//labels/json/
