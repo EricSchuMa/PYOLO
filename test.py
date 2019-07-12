@@ -155,8 +155,10 @@ def test(
 
     # Print results per class
     if nc > 1 and len(stats):
-        for i, c in enumerate(ap_class):
-            print(pf % (names[c], seen, nt[c], p[i], r[i], ap[i], f1[i]))
+        with open('results_classes.txt', 'a') as file:
+            for i, c in enumerate(ap_class):
+                print(pf % (names[c], seen, nt[c], p[i], r[i], ap[i], f1[i]))
+                file.write(pf % (names[c], seen, nt[c], p[i], r[i], ap[i], f1[i]) + '\n')  # P, R, mAP, F1, test_loss
 
     # Save JSON
     if save_json and map and len(jdict):
