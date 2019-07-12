@@ -98,7 +98,7 @@ def train(
     nf = int(model.module_defs[model.yolo_layers[0] - 1]['filters'])  # yolo layer size (i.e. 255)
     if opt.resume or opt.transfer:  # Load previously saved model
         if opt.transfer:  # Transfer learning
-            chkpt = torch.load(weights + 'yolov3-spp.pt', map_location=device)
+            chkpt = torch.load(weights + 'yolov3-spp.weights', map_location=device)
             model.load_state_dict({k: v for k, v in chkpt['model'].items() if v.numel() > 1 and v.shape[0] != 255},
                                   strict=False)
             for p in model.parameters():
@@ -282,6 +282,19 @@ def train(
             # Delete checkpoint
             del chkpt
 
+        # save final epoch
+        if epoch == (epochs-1):
+            chkpt = {'epoch': epoch,
+                    'best_map': best_map,
+                    'model': model.module.state_dict() if type(
+                        model) is nn.parallel.DistributedDataParallel else model.state_dict(),
+                    'optimizer': optimizer.state_dict()}
+
+            final = weights + 'final.pt'
+            torch.save(chkpt, final)
+
+            del chkpt
+
     return results
 
 
@@ -305,12 +318,12 @@ def print_mutation(hyp, results):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--epochs', type=int, default=100, help='number of epochs')
-    parser.add_argument('--batch-size', type=int, default=8, help='batch size')
-    parser.add_argument('--accumulate', type=int, default=8, help='number of batches to accumulate before optimizing')
-    parser.add_argument('--cfg', type=str, default='cfg/yolov4-custom.cfg', help='cfg file path')
-    parser.add_argument('--data-cfg', type=str, default='data/berkeley.data', help='lunar.data file path')
+    parser.add_argument('--batch-size', type=int, default=16, help='batch size')
+    parser.add_argument('--accumulate', type=int, default=4, help='number of batches to accumulate before optimizing')
+    parser.add_argument('--cfg', type=str, default='cfg/yolov3-custom.cfg', help='cfg file path')
+    parser.add_argument('--data-cfg', type=str, default='data/berkeley.data', help='berkley.data file path')
     parser.add_argument('--single-scale', action='store_true', help='train at fixed size (no multi-scale)')
-    parser.add_argument('--img-size', type=int, default=416, help='inference size (pixels)')
+    parser.add_argument('--img-size', type=int, default=352, help='inference size (pixels)')
     parser.add_argument('--resume', action='store_true', help='resume training flag')
     parser.add_argument('--transfer', action='store_true', help='transfer learning flag')
     parser.add_argument('--pretrained', action='store_true', help='pretrained training flag')
