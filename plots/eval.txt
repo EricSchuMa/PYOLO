@@ -1,0 +1,16 @@
+Fehlerquelle
+    Objekte verwechselt
+    Localisierung
+    Erkennt etwas im Hintergrund
+
+andere Architectur trainieren
+
+verbesserugn des feed von selteneren klassen
+
+eval basierend auf klassen
+
+histogramm von klassen häufigkeiten
+
+train vs val performance
+
+mobileNet
