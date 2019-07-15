@@ -4,11 +4,13 @@
 *.gz
 *.bak
 .idea
+*.pt
+*.txt
 **/__pycache__
-data/images
-data/labels/train
+**.jpg
 data/labels/val
 data/labels/json/
 data/labels/bdd100k_labels_images_train/
 data/labels/bdd100k_labels_images_val/
 data/labels/first_two/
+weights
