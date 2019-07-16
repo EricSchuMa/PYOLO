@@ -34,7 +34,7 @@ Hardware
 
 The idea behind YOLO is to simultaneously predict multiple possible bounding boxes, the confidence for the box that it contains an object and the class probabilities in a single network.
 
-![From the image to predictions][images/dog.jpg]
+![From the image to predictions](images/dog.jpg)
 
 
 Steps of predicting Anchor Boxes:
@@ -56,7 +56,7 @@ Comparison of different CNN feature extractors. All extractors have been trained
 
 #### Darknet - 53
 
-![Darknet - 53 architecture][images/darknet53.png]
+![Darknet - 53 architecture](images/darknet53.png)
 
 - 53 convolutional layers
 - Shortcut layers to keep different resolutions
