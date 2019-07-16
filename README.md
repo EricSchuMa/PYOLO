@@ -45,9 +45,72 @@ Steps of predicting Anchor Boxes:
 
 | Architecture 	| Top - 1 	| Top - 5 	| FPS 	|
 |--------------	|---------	|---------	|-----	|
-| Darknet - 19 	| 74.1    	| 91.8    	| 171 	|
+| Darknet - 19 	| 74.1    	| 91.8    	| **171** 	|
 | ResNet - 101 	| 77.1    	| 93.7    	| 53  	|
-| ResNet - 152 	| 77.6    	| 93.8    	| 37  	|
-| DarkNet - 53 	| 77.2    	| 93.8    	| 78  	|
+| ResNet - 152 	| **77.6**    	| **93.8**    	| 37  	|
+| DarkNet - 53 	| 77.2    	| **93.8**    	| **78**  	|
+
+Comparison of different CNN feature extractors. All extractors have been trained on the same data and are evaluated at a resolution of 288x288 on a TitanX-GPU. Reprinted from Yolov3: an incremental improvement [Redmon and Farhadi, 2018]
+
+Darknet-53:
+
+![Darknet - 53 architecture][images/prediction.jpg]
+
+- 53 convolutional layers
+- Shortcut layers to keep different reso-lutions
+- Routing layers for multi-scale predic-tions
+
+Implementation of own backbone to trade-off between FPS and performance.
+
+Own Backbone:
+
+- 33 convolutional layers
+- Less GPU memory for training
 
 ## Results and Evaluation
+
+- Training for 60 epochs with input-size of 352 x 352
+- Multi-scale training until epoch 80 # TODO: edit epoch nr. Scales: [288, 320, 352, 384, 416, 448, 480, 512, 544, 576, 608]
+- Validation after every epoch
+- Testing after final training
+
+Validation:
+
+3 Groups of objects:
+- Car, bus, truck
+- Traffic light, traffic sign
+- Bike, motor, rider, person
+
+| Class         	| Number of Instances 	| mAP   	|
+|---------------	|---------------------	|-------	|
+| Car           	| 1.03e+05            	| 0.000 	|
+| Traffic light 	| 2.69e+04            	| 0.000 	|
+| Traffic sign  	| 3.49e+04            	| 0.000 	|
+| Person        	| 1.33e+04            	|       	|
+| Truck         	| 4.24e+03            	|       	|
+| Bus           	| 1.6e+03             	|       	|
+| Bike          	| 1.01e+03            	|       	|
+| Rider         	| 649                 	|       	|
+| Motor         	| 452                 	|       	|
+| Train         	| 15                  	|       	|
+
+Final Results on Test-Set:
+
+Comparison with competing models (from BDD competition)
+
+| Team       	| Mean Average Precision 	|
+|------------	|------------------------	|
+| Sogou_MM   	| 33.10                  	|
+| ICST & Ali 	| 29.69                  	|
+| seb        	| 20.66                  	|
+| Max & Oli  	| 100                    	|
+
+Example Outputs:
+
+![Darknet - 53 architecture][images/prediction.jpg]
+![Darknet - 53 architecture][images/prediction.jpg]
+![Darknet - 53 architecture][images/prediction.jpg]
+![Darknet - 53 architecture][images/prediction.jpg]
+![Darknet - 53 architecture][images/prediction.jpg]
+![Darknet - 53 architecture][images/prediction.jpg]
+
