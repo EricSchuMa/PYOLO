@@ -19,7 +19,7 @@ def detect(
         nms_thres=0.5,
         save_txt=False,
         save_images=True,
-        webcam=False
+        webcam=True
 ):
     device = torch_utils.select_device()
     torch.backends.cudnn.benchmark = False  # set False for reproducible results
@@ -120,11 +120,11 @@ def detect(
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', type=str, default='cfg/yolov3-spp.cfg', help='cfg file path')
-    parser.add_argument('--data-cfg', type=str, default='data/coco.data', help='coco.data file path')
-    parser.add_argument('--weights', type=str, default='weights/yolov3-spp.weights', help='path to weights file')
-    parser.add_argument('--images', type=str, default='data/samples', help='path to images')
-    parser.add_argument('--img-size', type=int, default=416, help='inference size (pixels)')
+    parser.add_argument('--cfg', type=str, default='cfg/yolov3-custom.cfg', help='cfg file path')
+    parser.add_argument('--data-cfg', type=str, default='data/berkeley.data', help='coco.data file path')
+    parser.add_argument('--weights', type=str, default='weights/best.pt', help='path to weights file')
+    parser.add_argument('--images', type=str, default='data/images/val', help='path to images')
+    parser.add_argument('--img-size', type=int, default=512, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.5, help='object confidence threshold')
     parser.add_argument('--nms-thres', type=float, default=0.5, help='iou threshold for non-maximum suppression')
     parser.add_argument('--fourcc', type=str, default='mp4v', help='fourcc output video codec (verify ffmpeg support)')
