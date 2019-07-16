@@ -56,7 +56,7 @@ Comparison of different CNN feature extractors. All extractors have been trained
 
 #### Darknet - 53
 
-![Darknet - 53 architecture][images/darknet53.jpg]
+![Darknet - 53 architecture][images/darknet53.png]
 
 - 53 convolutional layers
 - Shortcut layers to keep different resolutions
