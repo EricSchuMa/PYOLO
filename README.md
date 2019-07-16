@@ -34,7 +34,7 @@ Hardware
 
 The idea behind YOLO is to simultaneously predict multiple possible bounding boxes, the confidence for the box that it contains an object and the class probabilities in a single network.
 
-![From the image to predictions](images/dog.jpg)
+![From the image to predictions](images/dog.png)
 
 
 Steps of predicting Anchor Boxes:
