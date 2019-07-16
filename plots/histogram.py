@@ -14,11 +14,13 @@ freq = {
 }
 
 vs = freq.values()
+s = sum(vs)
 
 plt.xticks(rotation='vertical')
 plt.ylabel("Frequencies of targets")
 for i, v in enumerate(vs):
-    plt.text(i, v + 1900, str(int(v)), color='darkblue', ha='center')
+    plt.text(i, v + 1600, str(int(v)), ha='center')
+plt.ticklabel_format(style='sci', axis='y', scilimits=(4,4))
 plt.bar(freq.keys(), vs)
 plt.tight_layout()
 # plt.show()
