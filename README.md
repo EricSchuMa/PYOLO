@@ -1,14 +1,16 @@
-# Real - time object detection with YOLOv3 in urban street scenes
+# Real time object detection with YOLOv3 in urban street scenes
 
 ## Introduction
 
 Alongside accuracy and recall, computational cost is the most important performance criterion to be optimized in object detection because many applications demand real time detection.
 
-The development of predicting bounding boxes for object detection started with the sliding window approach, which, while predicting appropriate bounding boxes, is very computationally expensive. Later models use selective search (in RCNNs) or region proposal networks (in Faster - RCNNs) —vastly reduced computational cost. YOLO and its derivatives, YOLO9000 and YOLOv3, offer state of the art prediction accuracy and leading real time performance (frames per second). In this project we explore the performance of the YOLOv3 model for detecting objects in street scenes.
+The development of predicting bounding boxes for object detection started with the sliding window approach, which, while predicting appropriate bounding boxes, is very computationally expensive. Later models use selective search (in RCNNs) or region proposal networks (in Faster - RCNNs) - vastly reduced computational cost. YOLO and its derivatives, YOLO9000 and YOLOv3, offer state of the art prediction accuracy and leading real time performance (frames per second). In this project we explore the performance of the YOLOv3 model for detecting objects in street scenes.
 
-## Motivation—Why should we detect objects (in street scenes)?
+## Motivation - Why should we detect objects (in street scenes)?
 
-Object detection has a variety of applications, with the most popular being: transportation (e.g. autonomous driving), consumer electronics (e.g. face detection in smartphones), surveillance (e.g. face detection in shop surveillance cameras). Street scenes are interesting subjects for object detection since they present multiple classes and varying conditions in lighting, landscape, surroundings, weather and season of year.
+Object detection has a variety of applications, with the most popular being: transportation (e.g. autonomous driving), consumer electronics (e.g. face detection in smartphones), surveillance (e.g. face detection in shop surveillance cameras).
+
+Street scenes are interesting subjects for object detection since they present multiple classes and varying conditions in lighting, landscape, surroundings, weather and season of year.
 
 ## Data set
 
@@ -16,7 +18,7 @@ Object detection has a variety of applications, with the most popular being: tra
 
 2D Bounding boxes annotated on 100.000 images for bus, traffic light, traffic sign, person, bike, truck, motor, car, train and rider.
 
-Berkeley Deep Drive data-set contains urban street scenes captured by dashboard cameras in cars. The data-set contains images for day and night scenes and varying weather conditions. Furthermore, different cameras have been used to capture the footage, resulting in varying image quality.
+Berkeley Deep Drive data-set contains urban street scenes captured by dashboard cameras in cars. The data set contains images for day and night scenes and varying weather conditions. Furthermore, different cameras have been used to capture the footage, resulting in varying image quality.
 
 Setup
 - 70% of data used for training
@@ -52,7 +54,7 @@ Steps of predicting Anchor Boxes:
 
 Comparison of different CNN feature extractors. All extractors have been trained on the same data and are evaluated at a resolution of 288x288 on a TitanX - GPU. Reprinted from Yolov3: an incremental improvement [Redmon and Farhadi, 2018]
 
-Darknet - 53:
+#### Darknet - 53
 
 ![Darknet - 53 architecture][images/prediction.jpg]
 
@@ -62,7 +64,7 @@ Darknet - 53:
 
 Implementation of own backbone to trade-off between FPS and performance.
 
-Own Backbone:
+#### Own Backbone:
 
 - 33 convolutional layers
 - Less GPU memory for training
@@ -74,7 +76,7 @@ Own Backbone:
 - Validation after every epoch
 - Testing after final training
 
-Validation:
+#### Validation
 
 3 Groups of objects:
 - Car, bus, truck
@@ -94,7 +96,7 @@ Validation:
 | Motor         	| 452                 	|       	|
 | Train         	| 15                  	|       	|
 
-Final Results on Test - Set:
+#### Final Results on Test Set
 
 Comparison with competing models (from BDD competition)
 
