@@ -7,7 +7,6 @@
 *.pt
 *.txt
 **/__pycache__
-**.jpg
 data/labels/val
 data/labels/json/
 data/labels/bdd100k_labels_images_train/
@@ -15,3 +14,10 @@ data/labels/bdd100k_labels_images_val/
 data/labels/first_two/
 weights
 **.shapes
+choice/**/*.jpg
+data/images/**/*.jpg
+data/samples/**/*.jpg
+output/**/*.jpg
+test_batch0.jpg
+train_batch0.jpg
+data/**/*.zip
