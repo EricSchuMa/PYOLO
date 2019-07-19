@@ -105,7 +105,7 @@ Comparison with competing models (from BDD competition)
 | Sogou_MM   	| 33.10                  	|
 | ICST & Ali 	| 29.69                  	|
 | seb        	| 20.66                  	|
-| Max & Oli  	| 100                    	|
+| Max & Oli(ours)  	| 25.00                    	|
 
 Example Outputs:
 
