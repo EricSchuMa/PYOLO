@@ -85,16 +85,16 @@ Implementation of own backbone to trade-off between FPS and performance.
 
 | Class         	| Number of Instances 	| mAP   	|
 |---------------	|---------------------	|-------	|
-| Car           	| 1.03e+05            	| 0.000 	|
-| Traffic light 	| 2.69e+04            	| 0.000 	|
-| Traffic sign  	| 3.49e+04            	| 0.000 	|
-| Person        	| 1.33e+04            	|       	|
-| Truck         	| 4.24e+03            	|       	|
-| Bus           	| 1.6e+03             	|       	|
-| Bike          	| 1.01e+03            	|       	|
-| Rider         	| 649                 	|       	|
-| Motor         	| 452                 	|       	|
-| Train         	| 15                  	|       	|
+| Car           	| 1.03e+05            	| 0.557 	|
+| Traffic light 	| 2.69e+04            	| 0.206 	|
+| Traffic sign  	| 3.49e+04            	| 0.280 	|
+| Person        	| 1.33e+04            	| 0.312 	|
+| Truck         	| 4.24e+03            	| 0.302 	|
+| Bus           	| 1.6e+03             	| 0.281 	|
+| Bike          	| 1.01e+03            	| 0.203 	|
+| Rider         	| 649                 	| 0.224 	|
+| Motor         	| 452                 	| 0.136 	|
+| Train         	| 15                  	| 0.000 	|
 
 #### Final Results on Test Set
 
