@@ -14,7 +14,7 @@ Street scenes are interesting subjects for object detection since they present m
 
 ## Data set
 
-![Example image from the Berkeley Deep Drive data set][images/example.jpg]
+![Example image from the Berkeley Deep Drive data set](images/img3.png)
 
 2D Bounding boxes annotated on 100.000 images for bus, traffic light, traffic sign, person, bike, truck, motor, car, train and rider.
 
@@ -34,7 +34,7 @@ Hardware
 
 The idea behind YOLO is to simultaneously predict multiple possible bounding boxes, the confidence for the box that it contains an object and the class probabilities in a single network.
 
-![From the image to predictions][images/prediction.jpg]
+![From the image to predictions](images/dog.png)
 
 
 Steps of predicting Anchor Boxes:
@@ -56,7 +56,7 @@ Comparison of different CNN feature extractors. All extractors have been trained
 
 #### Darknet - 53
 
-![Darknet - 53 architecture][images/prediction.jpg]
+![Darknet - 53 architecture](images/darknet53.png)
 
 - 53 convolutional layers
 - Shortcut layers to keep different resolutions
@@ -109,10 +109,16 @@ Comparison with competing models (from BDD competition)
 
 Example Outputs:
 
-![Darknet - 53 architecture][images/prediction.jpg]
-![Darknet - 53 architecture][images/prediction.jpg]
-![Darknet - 53 architecture][images/prediction.jpg]
-![Darknet - 53 architecture][images/prediction.jpg]
-![Darknet - 53 architecture][images/prediction.jpg]
-![Darknet - 53 architecture][images/prediction.jpg]
+![example_image1](images/examples/bus_truck.jpg)
+![example_image2](images/examples/cac07407-0eb1c8bf.jpg)
+![example_image3](images/examples/cac07407-15b814db.jpg)
+![example_image4](images/examples/cac07407-951977c8.jpg)
+![example_image5](images/examples/clear.jpg)
+![example_image6](images/examples/clear_traffic_signs.jpg)
+![example_image7](images/examples/false_positives_traffic_signs.jpg)
+![example_image8](images/examples/night.jpg)
+![example_image9](images/examples/persons.jpg)
+![example_image10](images/examples/traffic_signs.jpg)
+
+
 
