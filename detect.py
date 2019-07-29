@@ -1,5 +1,8 @@
+#!/usr/bin/python3
+
 import argparse
 import time
+import copy
 from sys import platform
 
 from models import *
@@ -19,7 +22,8 @@ def detect(
         nms_thres=0.5,
         save_txt=False,
         save_images=True,
-        webcam=True
+        webcam=True,
+        video=True
 ):
     device = torch_utils.select_device()
     torch.backends.cudnn.benchmark = False  # set False for reproducible results
@@ -68,6 +72,7 @@ def detect(
         save_path = str(Path(output) / Path(path).name)
 
         # Get detections
+        #img_copy = copy.copy(img)
         img = torch.from_numpy(img).unsqueeze(0).to(device)
         pred, _ = model(img)
         det = non_max_suppression(pred, conf_thres, nms_thres)[0]
@@ -97,6 +102,11 @@ def detect(
         if webcam:  # Show live webcam
             cv2.imshow(weights, im0)
 
+        #if video:
+        #    cv2.imshow(weights,img_copy[0])
+        #    cv2.waitKey(1)
+
+
         if save_images:  # Save image with detections
             if dataloader.mode == 'images':
                 cv2.imwrite(save_path, im0)
@@ -123,7 +133,7 @@ if __name__ == '__main__':
     parser.add_argument('--cfg', type=str, default='cfg/yolov3-custom.cfg', help='cfg file path')
     parser.add_argument('--data-cfg', type=str, default='data/berkeley.data', help='coco.data file path')
     parser.add_argument('--weights', type=str, default='weights/best.pt', help='path to weights file')
-    parser.add_argument('--images', type=str, default='data/images/val', help='path to images')
+    parser.add_argument('--images', type=str, default='data/images/test', help='path to images')
     parser.add_argument('--img-size', type=int, default=512, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.5, help='object confidence threshold')
     parser.add_argument('--nms-thres', type=float, default=0.5, help='iou threshold for non-maximum suppression')
